@@ -1,6 +1,6 @@
 # Etch
 
-Encrypt a file, or decrypt a file and print to `stdout`.
+Encrypt a file, or decrypt a file and print to `stdout`
 
 ## Usage
 ````
@@ -32,7 +32,7 @@ etch -d ~/secret.txt-aes256
 You'll be prompted for the passphrase used to encrypt the file before the
 decrypted data is printed to `stdout`.
 
-### Converting files
+### Convert a file
 `etch` doesn't delete or overwrite any files, and has no 'conversion'
 features.
 
@@ -45,3 +45,6 @@ To convert an encrypted file back, you might want to do something like this:
 ````
 touch secret.txt && etch -d secret.txt-aes256 >> secret.txt && rm secret.txt-aes256
 ````
+
+### License
+MIT License

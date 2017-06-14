@@ -3,7 +3,7 @@
 Encrypt a file, or decrypt a file and print to `stdout`.
 
 ## Usage
-````shell
+````
 Etch(1)
 Encrypt a file, or decrypt a file and print to stdout.
 
@@ -14,7 +14,7 @@ Options:
 ````
 
 ### Encrypt a file
-````shell
+````
 etch -e ~/secret.txt
 
 > ~/secret.txt-aes256
@@ -24,7 +24,7 @@ the written to file in the same directory as the input file, in the
 case above `~/secret.txt-aes256`.
 
 ### Decrypt a file
-````shell
+````
 etch -d ~/secret.txt-aes256
 
 > My secret data...
@@ -37,11 +37,11 @@ decrypted data is printed to `stdout`.
 features.
 
 You might want to do something like this to convert a file:
-````shell
+````
 etch -e secret.txt && rm secret.txt
 ````
 
 To convert an encrypted file back, you might want to do something like this:
-````shell
+````
 touch secret.txt && etch -d secret.txt-aes256 >> secret.txt && rm secret.txt-aes256
 ````

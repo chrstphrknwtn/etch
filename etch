@@ -1,0 +1,96 @@
+#!/usr/bin/env sh
+
+#
+# be posixy
+#
+set -o posix
+
+#
+# be checking
+#
+type openssl >/dev/null 2>&1 || { echo >&2 "etch: openssl cli required but not found"; exit 0; }
+
+#
+# be helpful
+#
+help() {
+  cat <<-EOF
+
+  Etch(1)
+  Encrypt a file, or decrypt a file and print to stdout.
+
+  Options:
+    -e, --encrypt <file>    Encrypt file to new file <file>-aes256
+    -d, --decrypt <file>    Decrypt a file and print to stdout
+    -h, --help              Print this help message
+EOF
+}
+
+#
+# abort with <msg>
+#
+abort() {
+  printf "etch: %s\n" "$@" 1>&2
+  exit 1
+}
+
+#
+# encrypt
+#
+encrypt() {
+  local NAME="$1"
+
+  # Check if we have a file arg
+  if [ ! $NAME ]; then
+    abort "-e option requires a file to encrypt"
+  fi
+  # Check source file exists
+  if [ ! -f "$NAME" ]; then
+    abort "no such file: $NAME"
+  fi
+  # Check if destination file exists, if so abort.
+  if [ -f "$NAME-aes256" ]; then
+    abort "encrypted file already exists: $NAME-aes256"
+  fi
+
+  command openssl enc -e -aes256 -in $NAME -out $NAME-aes256
+}
+
+#
+# decrypt & Print to stdout
+#
+decrypt() {
+  local NAME="$1"
+
+  # Check if we have a file arg
+  if [ ! $NAME ]; then
+    abort "-d option requires a file to decrypt"
+  fi
+  # If input file exists, decrypt and print
+  if [ -f "$NAME" ]; then
+    command openssl enc -d -aes256 -in $NAME
+    printf "\n"
+  else
+    abort "no such file: $NAME"
+  fi
+
+}
+
+#
+# args
+#
+while test $# -ne 0; do
+  arg=$1; shift
+  case $arg in
+    -e|--encrypt) encrypt $@; exit;;
+    -d|--decrypt) decrypt $@; exit ;;
+    -h|--help) help; exit ;;
+    *)
+      test $# -eq 1 || abort "unknown option: $arg"
+  esac
+done
+
+#
+# No args, show help
+#
+help

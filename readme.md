@@ -36,12 +36,12 @@ decrypted data is printed to `stdout`.
 `etch` doesn't delete or overwrite any files, and has no 'conversion'
 features.
 
-You might want to do something like this to convert a file:
+You might want to do something like this to 'convert' a file:
 ````
 etch -e secret.txt && rm secret.txt
 ````
 
-To convert an encrypted file back, you might want to do something like this:
+To 'convert' an encrypted file, you might want to do something like this:
 ````
 touch secret.txt && etch -d secret.txt-aes256 >> secret.txt && rm secret.txt-aes256
 ````

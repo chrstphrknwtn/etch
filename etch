@@ -69,11 +69,14 @@ decrypt() {
   # If input file exists, decrypt and print
   if [ -f "$NAME" ]; then
     command openssl enc -d -aes256 -in $NAME
-    printf "\n"
+    if [ $? -eq 0 ]; then
+      exit 0
+    else
+      exit -1
+    fi
   else
     abort "no such file: $NAME"
   fi
-
 }
 
 #

@@ -69,11 +69,15 @@ decrypt() {
   # If input file exists, decrypt and print
   if [ -f "$1" ]; then
     command openssl enc -d -aes256 -in $1
-    printf "\n"
+    if [ $? -eq 0 ]; then
+      exit 0
+    else
+      exit -1
+    fi
+
   else
     abort "no such file: $1"
   fi
-
 }
 
 #
@@ -82,7 +86,7 @@ decrypt() {
 while test $# -ne 0; do
   arg=$1; shift
   case $arg in
-    -e|--encrypt) encrypt $@; exit;;
+    -e|--encrypt) encrypt $@; exit ;;
     -d|--decrypt) decrypt $@; exit ;;
     -h|--help) help; exit ;;
     *)

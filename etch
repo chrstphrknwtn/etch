@@ -38,44 +38,45 @@ abort() {
 # encrypt
 #
 encrypt() {
-  local NAME="$1"
+  # $1 is the filename
 
   # Check if we have a file arg
-  if [ ! $NAME ]; then
+  if [ ! $1 ]; then
     abort "-e option requires a file to encrypt"
   fi
   # Check source file exists
-  if [ ! -f "$NAME" ]; then
-    abort "no such file: $NAME"
+  if [ ! -f "$1" ]; then
+    abort "no such file: $1"
   fi
   # Check if destination file exists, if so abort.
-  if [ -f "$NAME-aes256" ]; then
-    abort "encrypted file already exists: $NAME-aes256"
+  if [ -f "$1-aes256" ]; then
+    abort "encrypted file already exists: $1-aes256"
   fi
 
-  command openssl enc -e -aes256 -in $NAME -out $NAME-aes256
+  command openssl enc -e -aes256 -in $1 -out $1-aes256
 }
 
 #
 # decrypt & Print to stdout
 #
 decrypt() {
-  local NAME="$1"
+  # $1 is the filename
 
   # Check if we have a file arg
-  if [ ! $NAME ]; then
+  if [ ! $1 ]; then
     abort "-d option requires a file to decrypt"
   fi
   # If input file exists, decrypt and print
-  if [ -f "$NAME" ]; then
-    command openssl enc -d -aes256 -in $NAME
+  if [ -f "$1" ]; then
+    command openssl enc -d -aes256 -in $1
     if [ $? -eq 0 ]; then
       exit 0
     else
       exit -1
     fi
+
   else
-    abort "no such file: $NAME"
+    abort "no such file: $1"
   fi
 }
 

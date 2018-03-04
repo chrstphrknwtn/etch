@@ -85,7 +85,7 @@ decrypt() {
 while test $# -ne 0; do
   arg=$1; shift
   case $arg in
-    -e|--encrypt) encrypt $@; exit;;
+    -e|--encrypt) encrypt $@; exit ;;
     -d|--decrypt) decrypt $@; exit ;;
     -h|--help) help; exit ;;
     *)
